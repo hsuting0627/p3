@@ -10,11 +10,11 @@ Thread t;
 #define Y (0)
 #define Z (1017)
 #define A (1017)
-int16_t pDataXYZ[3] = {0};
+int16_t pDataXYZ[3] = {1};
 //int idR[32] = {0};
 int idR;
 int indexR = 0;
-int B;
+int B = 1;
 double angle = 0;
 void record(void) {
    BSP_ACCELERO_AccGetXYZ(pDataXYZ);
@@ -44,9 +44,11 @@ int main() {
    {
        for (int i = 0; i <10 ; i++) {
        B = sqrt((pDataXYZ[0]*pDataXYZ[0])+(pDataXYZ[1]*pDataXYZ[1])+(pDataXYZ[2]*pDataXYZ[2]));
-       angle = acos( pDataXYZ[2]*1017.0 / 1017.0 / B);
+       angle += acos( pDataXYZ[2]*1017.0 / 1017.0 / B);
        }
+       angle = angle / 10;
        printf("%f\n", angle * 57.3);
+       angle = 0;
        ThisThread::sleep_for(100);
    }
 }
